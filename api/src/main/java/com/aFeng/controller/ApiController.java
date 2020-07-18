@@ -14,7 +14,6 @@ public class ApiController {
     public synchronized String buy(){
         Jedis jedis = new Jedis();
         String mouse = jedis.get("mouse");
-        String sales_ = jedis.get("salesVolume");
         Long result = 0L,sales = 0L;
         if(Integer.valueOf(mouse).equals(0)){
             return "已经卖完了!";
