@@ -9,7 +9,7 @@ import redis.clients.jedis.Jedis;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class JemeterApplication {
+public class SpringBootApplication {
 
     @Test
     public void test(){
