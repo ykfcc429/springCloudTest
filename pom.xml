@@ -8,7 +8,7 @@
     <artifactId>springCloudTest</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>jemeter</module>
+        <module>api</module>
     </modules>
 
     <packaging>pom</packaging>
