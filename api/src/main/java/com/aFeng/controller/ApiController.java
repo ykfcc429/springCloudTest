@@ -1,25 +1,23 @@
 package com.aFeng.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
 
-@Controller
-@RequestMapping("/")
+@RestController("/")
 public class ApiController {
 
-    @RequestMapping("/buy")
+    @GetMapping("/buy")
     @ResponseBody
     public synchronized String buy(){
         Jedis jedis = new Jedis();
         String mouse = jedis.get("mouse");
-//        Long result = 0L,sales = 0L;
         if(Integer.valueOf(mouse).equals(0)){
             return "已经卖完啦!";
         }
-//        result = jedis.decr("mouse");
-//        sales = jedis.incr("salesVolume");
+        jedis.decr("mouse");
+        jedis.incr("salesVolume");
         return "<body style='background-color: black;font-size: 20;'>" +
                 "<div style='height: 50%;padding-top: 40%;padding-left: 19%;padding-right: 8%;color: orange;'>" +
                 "<h1 style='\n" +
