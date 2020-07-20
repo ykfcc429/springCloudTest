@@ -1,9 +1,10 @@
 package com.aFeng.controller;
 
+import com.aFeng.service.GoodsService;
 import com.aFeng.util.RedisUtil;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,7 +17,15 @@ public class GoodsController {
 
     RedisUtil redisUtil;
 
-    private static final String URL = "http://localhost:8079";
+    GoodsService goodsService;
+
+    @Value("${provider.url}")
+    private String URL ;
+
+    @Autowired
+    public void setGoodsService(GoodsService goodsService) {
+        this.goodsService = goodsService;
+    }
 
     @Autowired
     public void setRedisUtil(RedisUtil redisUtil) {
@@ -35,9 +44,6 @@ public class GoodsController {
 
     @GetMapping("/get/{id}")
     public Object findById(@PathVariable("id")Long id){
-        Object object = restTemplate.getForObject(URL+"/goods/get/"+id,Object.class);
-        String jsonObject = JSON.toJSONString(object);
-        redisUtil.getInstance().set("goods:"+id,jsonObject);
-        return object;
+        return goodsService.findById(id);
     }
 }
