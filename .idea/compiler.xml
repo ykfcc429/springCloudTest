@@ -10,7 +10,6 @@
         <module name="api" />
         <module name="provider-8079" />
         <module name="consumer-80" />
-        <module name="jemeter" />
       </profile>
     </annotationProcessing>
   </component>
