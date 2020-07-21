@@ -1,16 +1,114 @@
-# springCloudTest
-一个SpringCloud项目
+# SpringCloudTest
+初探微服务,一个SpringCloud项目
 
-目前简单的分为了两个模块,一个消费者,一个生产者
+## 技术栈
+* mysql 关系型数据库
+* redis 非关系型数据库,消费者端用来缓存数据
+* mybatis 数据持久化框架
+* Eureka 服务注册与发现,做了集群
+* Ribbon 后台的负债均衡
+* RestTemplate 说是比较优雅的方式发送HTTP请求
 
+##模块介绍
+### provider-8079
+生产者服务端,因为是在同一台电脑上部署,所以部署在不同的端口,8079是端口号
+这里着重说Eureka的配置,其他mybatis,mysql的配置不用多说
+#### 使用步骤
+* 导入eureka依赖
+```xml
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka-server</artifactId>
+        </dependency>
+```
+* 启动类配置@EnableEurekaClient
+```java
+@SpringBootApplication
+@EnableEurekaClient
+public class ProviderApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ProviderApplication.class,args);
+    }
+}
+```
+* 在配置文件里编写Eureka的配置
+```properties
+server.port=8079
+spring.application.name=provider-8079
+#这里是eureka集群,所有要配置所有的节点信息
+eureka.client.service-url.defaultZone=http://eureka8082.com:8082/eureka/,http://eureka8083.com:8083/eureka/,http://eureka8083.com:8083/eureka/
+eureka.instance.instance-id=provider-8079
+```
+这样的话,当集群正常工作的时候,启动生产者就可以注册到eureka中心管理了
 
-生产者主要负责数据库交互服务,使用mybatis做数据持久化,同时提供外部接口进行CRUD
+### consumer-80
+消费者服务端,主要用来接收前端请求,返回数据,这里的数据都是通过redis缓存
+消费者会与redis服务挂钩,也可以采用redis集群,一样的.
+这里着重讲一下eureka配置和Ribbon和Redis的使用;
+首先是导入依赖
+```xml
+        <dependency>
+            <groupId>com.aFeng</groupId>
+            <artifactId>provider-8079</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-ribbon -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-ribbon</artifactId>
+            <version>1.4.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+```
+这里可以继承生产者引入的jar包,除了能拿到生产者的实体之外还能拿到其他依赖,譬如Eureka
 
-消费者会在此基础上拓展一些缓存服务,因为没有前端页面,我也不会去写,所以只是尽可能的搭建一个spring cloud微服务架构
-子模块之间的交互使用 RestTemplate 进行交互,后期可能会加入服务发现与注册中心,在我的电脑上运行可能有些困难
+配置文件编写,这里的url就是eureka里生产者注册的实例名称,通过下面注册的eureka集群可以访问到生产者服务
+```properties
+provider.url=http://PROVIDER-8079
+eureka.client.register-with-eureka=false
+eureka.client.service-url.defaultZone=http://eureka8082.com:8082/eureka/,http://eureka8083.com:8083/eureka/,http://eureka8083.com:8083/eureka/
+```
 
-很难受,我的代码没有封存北极,我为什么不早点用github!
+然后是启动类的配置
+```java
+//这个exclude也很重要,因为引入了生产者的依赖会有mysql的依赖,springboot强制要求填写datasource的
+//url连接,实际上这个服务根本不需要连接数据库,所以这里要忽略掉数据库的配置类
+@SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
+@EnableEurekaClient
+public class ConsumerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ConsumerApplication.class,args);
+    }
+}
+```
+配置Ribbon的Bean
+```java
+@Configuration
+public class BeanConfig {
 
-现在项目里加入了Eureka集群,所有的生产者可以在Eureka统一注册管理啦
-同时消费者端也加了Eureka家庭,但不是作为服务端,而是客户端,需要生产者服务时只需要去Eureka取就行了,同时也用Ribbon做了后台的负债均衡
-能够让消费者的请求平均分配到生产者上,这里用的是默认的负载均衡策略也就是轮询策略!
+    @Bean
+    @LoadBalanced
+    public RestTemplate getRestTemplate(){
+        return new RestTemplate();
+    }
+}
+
+```
+使用RestTemplate
+```java
+    RestTemplate restTemplate;
+    
+    @Autowired
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+   
+    @RequestMapping("/add")
+    public boolean add(Goods goods){
+        return restTemplate.postForObject(URL+"/goods/add",goods,Boolean.class);
+    }
+```
+
