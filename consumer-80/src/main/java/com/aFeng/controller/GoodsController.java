@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/goods")
 @SuppressWarnings("all")
@@ -44,5 +46,10 @@ public class GoodsController {
     @GetMapping("/get/{id}")
     public Object findById(@PathVariable("id")Long id){
         return goodsService.findById(id);
+    }
+
+    @GetMapping("/list")
+    public List list(){
+        return goodsService.list();
     }
 }

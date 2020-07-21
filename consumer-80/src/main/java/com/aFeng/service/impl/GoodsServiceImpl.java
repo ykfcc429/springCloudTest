@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import redis.clients.jedis.Jedis;
+
+import java.util.ArrayList;
 import java.util.Map;
 
 @Service
@@ -47,7 +49,6 @@ public class GoodsServiceImpl implements GoodsService {
                     s = JSON.toJSONString(object);
                     // redis hash本身只支持String类型的值
                     //这里value虽然强转成String了,但还是属于原来的类,BigDecimal等无法转为String的类会在hSet的时候报错
-                    //
                     map = (Map<String, String>) JSON.parse(s);
                     for(String key:map.keySet()){
                         if(map.get(key)==null){
@@ -57,6 +58,8 @@ public class GoodsServiceImpl implements GoodsService {
                         }
                     }
                     jedis.hmset("goods:"+id,map);
+                }else{
+                    map = jedis.hgetAll("goods:" + id);
                 }
             }
         }
@@ -64,4 +67,9 @@ public class GoodsServiceImpl implements GoodsService {
         jedis.close();
         return JSON.parse(s);
     }
+
+    public ArrayList list() {
+        return restTemplate.getForObject(URL + "/goods/list", ArrayList.class);
+    }
+
 }
