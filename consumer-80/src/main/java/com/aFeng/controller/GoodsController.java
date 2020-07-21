@@ -1,12 +1,12 @@
 package com.aFeng.controller;
 
+import com.aFeng.pojo.Goods;
 import com.aFeng.service.GoodsService;
 import com.aFeng.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.List;
 
 @RestController
@@ -38,18 +38,18 @@ public class GoodsController {
         this.restTemplate = restTemplate;
     }
 
-    @PostMapping("/add")
-    public boolean add(Object object){
-        return restTemplate.postForObject(URL+"/goods/add",object,Boolean.class);
+    @RequestMapping("/add")
+    public boolean add(Goods goods){
+        return restTemplate.postForObject(URL+"/goods/add",goods,Boolean.class);
     }
 
-    @GetMapping("/get/{id}")
-    public Object findById(@PathVariable("id")Long id){
+    @RequestMapping("/get/{id}")
+    public Goods findById(@PathVariable("id")Long id){
         return goodsService.findById(id);
     }
 
-    @GetMapping("/list")
-    public List list(){
+    @RequestMapping("/list")
+    public List<Goods>  list(){
         return goodsService.list();
     }
 }

@@ -1,10 +1,13 @@
 package com.aFeng.service;
 
+import com.aFeng.pojo.Goods;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public interface GoodsService {
 
-    Object findById(Long id);
+    Goods findById(Long id);
 
-    ArrayList list();
+    List<Goods> list();
 }

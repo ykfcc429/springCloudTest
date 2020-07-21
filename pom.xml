@@ -11,6 +11,8 @@
         <module>consumer-80</module>
         <module>provider-8079</module>
         <module>eureka-8081</module>
+        <module>eureka-8082</module>
+        <module>eureka-8083</module>
     </modules>
 
     <packaging>pom</packaging>
