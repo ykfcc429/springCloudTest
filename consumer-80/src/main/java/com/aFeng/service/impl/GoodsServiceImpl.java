@@ -47,6 +47,7 @@ public class GoodsServiceImpl implements GoodsService {
                     s = JSON.toJSONString(object);
                     // redis hash本身只支持String类型的值
                     //这里value虽然强转成String了,但还是属于原来的类,BigDecimal等无法转为String的类会在hSet的时候报错
+                    //
                     map = (Map<String, String>) JSON.parse(s);
                     for(String key:map.keySet()){
                         if(map.get(key)==null){
