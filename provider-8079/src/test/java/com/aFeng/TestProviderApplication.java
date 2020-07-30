@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ProviderApplication.class)
 public class TestProviderApplication {
@@ -21,8 +24,8 @@ public class TestProviderApplication {
 
     @Test
     public void add(){
-        Goods goods = new Goods();
-        goods.setName("鼠标").setPrice(200d).setStock(2000L);
-        System.out.println(goodsService.add(goods));
+        Map<String,String> map = new HashMap<>();
+        map.put("A","200.0");
+        System.out.println(map);
     }
 }

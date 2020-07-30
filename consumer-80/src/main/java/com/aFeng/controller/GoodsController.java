@@ -16,8 +16,6 @@ public class GoodsController {
 
     RestTemplate restTemplate;
 
-    RedisUtil redisUtil;
-
     GoodsService goodsService;
 
     @Value("${provider.url}")
@@ -26,11 +24,6 @@ public class GoodsController {
     @Autowired
     public void setGoodsService(GoodsService goodsService) {
         this.goodsService = goodsService;
-    }
-
-    @Autowired
-    public void setRedisUtil(RedisUtil redisUtil) {
-        this.redisUtil = redisUtil;
     }
 
     @Autowired

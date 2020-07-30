@@ -2,6 +2,7 @@ package com.aFeng.service.impl;
 
 import com.aFeng.pojo.Goods;
 import com.aFeng.service.GoodsService;
+import com.aFeng.util.MapUtil;
 import com.aFeng.util.RedisUtil;
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 双检锁,仅适用于单应用的前提下,如果redis中没有缓存数据,仅允许单个线程去访问生产者(数据库)
-     * 如果有多个消费者服务,应采用redis的分布式锁
+     * 如果有多个消费者服务,应采用redis的分布式双检锁
      * @param id 商品ID
      * @return 商品信息的JSON字符串
      */
@@ -53,13 +54,7 @@ public class GoodsServiceImpl implements GoodsService {
                     // redis hash本身只支持String类型的值
                     //这里value虽然强转成String了,但还是属于原来的类,BigDecimal等无法转为String的类会在hSet的时候报错
                     map = (Map<String, String>) JSON.parse(s);
-                    for(String key:map.keySet()){
-                        if(map.get(key)==null){
-                            map.put(key,"");
-                        }else {
-                            map.put(key, String.valueOf(map.get(key)));
-                        }
-                    }
+                    MapUtil.convertValueToString(map);
                     jedis.hmset("goods:"+id,map);
                 }else{
                     map = jedis.hgetAll("goods:" + id);
