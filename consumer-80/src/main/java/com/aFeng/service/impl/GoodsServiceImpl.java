@@ -46,21 +46,21 @@ public class GoodsServiceImpl implements GoodsService {
         Jedis jedis = redisUtil.getInstance();
         Map<String,String> map = jedis.hgetAll("goods:" + id);
         String s;
-        if(map.isEmpty()){
-            synchronized (this){
-                if(map.isEmpty()){
+//        if(map.isEmpty()){
+//            synchronized (this){
+//                if(map.isEmpty()){
                     Goods goods = restTemplate.getForObject(URL+"/goods/get/"+id,Goods.class);
                     s = JSON.toJSONString(goods);
                     // redis hash本身只支持String类型的值
                     //这里value虽然强转成String了,但还是属于原来的类,BigDecimal等无法转为String的类会在hSet的时候报错
                     map = (Map<String, String>) JSON.parse(s);
-                    MapUtil.convertValueToString(map);
-                    jedis.hmset("goods:"+id,map);
-                }else{
-                    map = jedis.hgetAll("goods:" + id);
-                }
-            }
-        }
+//                    MapUtil.convertValueToString(map);
+//                    jedis.hmset("goods:"+id,map);
+//                }else{
+//                    map = jedis.hgetAll("goods:" + id);
+//                }
+//            }
+//        }
         s = JSON.toJSONString(map);
         return JSON.parseObject(s,Goods.class);
     }
