@@ -42,6 +42,7 @@ public class GoodsServiceImpl implements GoodsService {
      * @return 商品信息的JSON字符串
      */
     @SuppressWarnings("all")
+    @Override
     public Goods findById(Long id) {
         Jedis jedis = redisUtil.getInstance();
         Map<String,String> map = jedis.hgetAll("goods:" + id);
@@ -61,12 +62,28 @@ public class GoodsServiceImpl implements GoodsService {
                 }
             }
         }
+        jedis.close();
         s = JSON.toJSONString(map);
         return JSON.parseObject(s,Goods.class);
     }
 
+    @Override
     public List<Goods> list() {
         return restTemplate.getForObject(URL + "/goods/list", List.class);
     }
 
+    @Override
+    public String buy(Long id) {
+        synchronized (this){
+            Jedis jedis = redisUtil.getInstance();
+            String stock = jedis.hget("goods:" + id, "stock");
+            if(Integer.parseInt(stock)>0){
+                jedis.close();
+                return "购买失败";
+            }
+            jedis.hincrBy("goods:" + id, "stock", -1L);
+            jedis.close();
+            return "购买成功";
+        }
+    }
 }

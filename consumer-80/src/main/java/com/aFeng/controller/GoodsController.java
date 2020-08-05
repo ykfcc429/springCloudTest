@@ -41,7 +41,13 @@ public class GoodsController {
     }
 
     @RequestMapping("/list")
-    public List<Goods>  list(){
+    public List<Goods> list(){
         return goodsService.list();
+    }
+
+    @RequestMapping("buy/{id}")
+    @ResponseBody
+    public String buy(@PathVariable("id")Long id){
+        return goodsService.buy(id);
     }
 }
