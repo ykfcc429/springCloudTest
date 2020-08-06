@@ -12,6 +12,7 @@
         <module name="consumer-80" />
         <module name="eureka-8083" />
         <module name="eureka-8082" />
+        <module name="povider-8080" />
         <module name="eureka-8081" />
       </profile>
     </annotationProcessing>

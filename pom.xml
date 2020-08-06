@@ -14,6 +14,7 @@
         <module>eureka-8083</module>
         <module>provider-8078</module>
         <module>provider-8079</module>
+        <module>povider-8080</module>
     </modules>
 
     <packaging>pom</packaging>
