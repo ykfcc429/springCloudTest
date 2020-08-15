@@ -14,7 +14,9 @@
         <module>eureka-8083</module>
         <module>provider-8078</module>
         <module>provider-8079</module>
-        <module>povider-8080</module>
+        <module>provider-8080</module>
+        <module>consumer-81</module>
+        <module>springcloud-api-79</module>
     </modules>
 
     <packaging>pom</packaging>

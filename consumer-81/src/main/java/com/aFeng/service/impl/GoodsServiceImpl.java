@@ -2,6 +2,7 @@ package com.aFeng.service.impl;
 
 import com.aFeng.pojo.Goods;
 import com.aFeng.service.GoodsService;
+import com.aFeng.service.GoodsServiceApi;
 import com.aFeng.util.MapUtil;
 import com.aFeng.util.RedisUtil;
 import com.alibaba.fastjson.JSON;
@@ -18,21 +19,18 @@ import java.util.Map;
 @Service
 public class GoodsServiceImpl implements GoodsService {
 
-    @Value("${provider.url}")
-    private String URL;
-
     RedisUtil redisUtil;
 
-    RestTemplate restTemplate;
+    GoodsServiceApi goodsServiceApi;
+
+    @Autowired
+    public void setGoodsServiceApi(GoodsServiceApi goodsServiceApi) {
+        this.goodsServiceApi = goodsServiceApi;
+    }
 
     @Autowired
     public void setRedisUtil(RedisUtil redisUtil) {
         this.redisUtil = redisUtil;
-    }
-
-    @Autowired
-    public void setRestTemplate(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
     }
 
     /**
@@ -50,7 +48,7 @@ public class GoodsServiceImpl implements GoodsService {
         if(map.isEmpty()){
             synchronized (this){
                 if(map.isEmpty()){
-                    Goods goods = restTemplate.getForObject(URL+"/goods/get/"+id,Goods.class);
+                    Goods goods = goodsServiceApi.getGoodsById(id);
                     s = JSON.toJSONString(goods);
                     // redis hash本身只支持String类型的值
                     //这里value虽然强转成String了,但还是属于原来的类,BigDecimal等无法转为String的类会在hSet的时候报错
@@ -69,7 +67,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public List<Goods> list() {
-        return restTemplate.getForObject(URL + "/goods/list", List.class);
+        return goodsServiceApi.list();
     }
 
     @Override

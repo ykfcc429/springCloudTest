@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.aFeng</groupId>
-    <artifactId>povider-8080</artifactId>
+    <artifactId>provider-8080</artifactId>
 
     <dependencies>
         <dependency>

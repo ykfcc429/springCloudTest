@@ -2,6 +2,7 @@ package com.aFeng.controller;
 
 import com.aFeng.pojo.Goods;
 import com.aFeng.service.GoodsService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,8 +38,14 @@ public class GoodsController {
      * @return 商品全部信息
      */
     @GetMapping("/get/{id}")
+    @HystrixCommand(fallbackMethod = "getGoodsByIdHystrix")
     public Goods getGoodsById(@PathVariable("id") Long id){
-        return goodsService.findById(id);
+        Goods goods = goodsService.findById(id);
+        return goods;
+    }
+
+    public Goods getGoodsByIdHystrix(@PathVariable("id")Long id){
+        return new Goods().setId(0L).setName("不存在的id:"+id);
     }
 
     /**
