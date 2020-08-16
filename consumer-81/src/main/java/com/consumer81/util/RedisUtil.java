@@ -1,4 +1,4 @@
-package com.aFeng.util;
+package com.consumer81.util;
 
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;

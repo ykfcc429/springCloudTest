@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Mapper
-@Component
+@Component("goodsMapper")
 public interface GoodsMapper {
 
     @Insert("insert into goods (name,stock,price,db_origin) values(#{name},#{stock},#{price},DATABASE())")

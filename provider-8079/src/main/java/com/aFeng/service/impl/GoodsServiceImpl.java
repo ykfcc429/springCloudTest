@@ -14,6 +14,7 @@ import java.util.List;
 @Transactional
 public class GoodsServiceImpl implements GoodsService {
 
+//    @Autowired
     private GoodsMapper goodsMapper;
 
     @Autowired

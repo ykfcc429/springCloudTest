@@ -1,4 +1,4 @@
-package com.aFeng.util;
+package com.consumer81.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sun.jersey.api.MessageException;

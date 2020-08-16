@@ -1,4 +1,4 @@
-package com.aFeng;
+package com.api79;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,14 +6,11 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-/**
- * 消费者启动类
- */
-@SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class},scanBasePackages = "com.api79.*")
+@EnableFeignClients(basePackages = {"com.aFeng.*"})
 @EnableEurekaClient
-@EnableFeignClients
-public class ConsumerApplication {
+public class SpringCloudApi {
     public static void main(String[] args) {
-        SpringApplication.run(ConsumerApplication.class,args);
+        SpringApplication.run(SpringCloudApi.class,args);
     }
 }
