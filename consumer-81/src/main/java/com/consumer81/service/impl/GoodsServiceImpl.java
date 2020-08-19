@@ -9,8 +9,6 @@ import com.consumer81.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
-
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 

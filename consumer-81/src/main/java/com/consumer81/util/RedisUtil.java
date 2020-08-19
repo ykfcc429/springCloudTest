@@ -6,7 +6,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 /**
- * 记得释放连接
+ * 记得释放连接哦
  */
 @Component
 public class RedisUtil {
