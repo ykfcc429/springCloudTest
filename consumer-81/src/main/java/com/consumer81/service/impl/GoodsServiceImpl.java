@@ -20,11 +20,6 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     GoodsServiceApi goodsServiceApi;
 
-//    @Autowired
-//    public void setGoodsServiceApi(GoodsServiceApi goodsServiceApi) {
-//        this.goodsServiceApi = goodsServiceApi;
-//    }
-
     @Autowired
     public void setRedisUtil(RedisUtil redisUtil) {
         this.redisUtil = redisUtil;
@@ -58,7 +53,6 @@ public class GoodsServiceImpl implements GoodsService {
             synchronized (this){
                 if(flag){
                     Goods goods = goodsServiceApi.getGoodsById(id);
-                    System.out.println("已经赋值了");
                     s = JSON.toJSONString(goods);
                     // redis hash本身只支持String类型的值
                     //这里value虽然强转成String了,但还是属于原来的类,BigDecimal等无法转为String的类会在hSet的时候报错
@@ -67,7 +61,6 @@ public class GoodsServiceImpl implements GoodsService {
                     jedis.hmset("goods:"+id,map);
                     flag = map.isEmpty();
                 }else{
-                    System.out.println("我们通过了双检锁");
                     map = jedis.hgetAll("goods:" + id);
                 }
             }
