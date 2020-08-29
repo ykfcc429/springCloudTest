@@ -6,9 +6,12 @@ import com.consumer81.util.MapUtil;
 import com.consumer81.util.RedisUtil;
 import com.alibaba.fastjson.JSON;
 import com.consumer81.service.GoodsService;
+import com.rabbitmq.client.Channel;
+import org.springframework.amqp.core.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -76,17 +79,13 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public String buy(Long id) {
-        synchronized (this){
-            Jedis jedis = redisUtil.getInstance();
-            String stock = jedis.hget("goods:" + id, "stock");
-            if(Integer.parseInt(stock)>0){
-                jedis.close();
-                return "购买失败";
-            }
-            jedis.hincrBy("goods:" + id, "stock", -1L);
-            jedis.close();
-            return "购买成功";
+    public void buy(Long id, Channel channel, Message message) throws IOException {
+        try {
+            System.out.println(id);
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        } catch (Exception e) {
+            System.out.println("receiver false");
+            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
         }
     }
 }

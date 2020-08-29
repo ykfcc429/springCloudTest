@@ -2,9 +2,9 @@ package com.consumer81.controller;
 
 import com.aFeng.pojo.Goods;
 import com.consumer81.service.GoodsService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -13,6 +13,13 @@ import java.util.List;
 public class GoodsController {
 
     com.consumer81.service.GoodsService goodsService;
+
+    RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
 
     @Autowired
     public void setGoodsService(GoodsService goodsService) {
@@ -37,6 +44,6 @@ public class GoodsController {
     @RequestMapping("buy/{id}")
     @ResponseBody
     public String buy(@PathVariable("id")Long id){
-        return goodsService.buy(id);
+        return "";
     }
 }

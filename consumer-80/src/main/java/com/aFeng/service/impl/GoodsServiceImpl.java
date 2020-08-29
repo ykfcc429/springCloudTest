@@ -5,6 +5,7 @@ import com.aFeng.service.GoodsService;
 import com.aFeng.util.MapUtil;
 import com.aFeng.util.RedisUtil;
 import com.alibaba.fastjson.JSON;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import redis.clients.jedis.Jedis;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +26,13 @@ public class GoodsServiceImpl implements GoodsService {
     RedisUtil redisUtil;
 
     RestTemplate restTemplate;
+
+    RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
 
     @Autowired
     public void setRedisUtil(RedisUtil redisUtil) {
@@ -74,16 +83,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public String buy(Long id) {
-        synchronized (this){
-            Jedis jedis = redisUtil.getInstance();
-            String stock = jedis.hget("goods:" + id, "stock");
-            if(Integer.parseInt(stock)>0){
-                jedis.close();
-                return "购买失败";
-            }
-            jedis.hincrBy("goods:" + id, "stock", -1L);
-            jedis.close();
-            return "购买成功";
-        }
+        rabbitTemplate.convertAndSend("TestDirectExchange","TestDirectRouting",id);
+        return "请等候";
     }
 }

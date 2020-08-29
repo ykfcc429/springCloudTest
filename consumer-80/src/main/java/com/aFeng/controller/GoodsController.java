@@ -2,8 +2,10 @@ package com.aFeng.controller;
 
 import com.aFeng.pojo.Goods;
 import com.aFeng.service.GoodsService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import java.util.List;
@@ -16,6 +18,13 @@ public class GoodsController {
     RestTemplate restTemplate;
 
     GoodsService goodsService;
+
+    RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
 
     @Value("${provider.url}")
     private String URL ;
