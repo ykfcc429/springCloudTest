@@ -66,9 +66,8 @@ public class GoodsServiceImpl implements GoodsService {
                     map = (Map<String, String>) JSON.parse(s);
                     MapUtil.convertValueToString(map);
                     jedis.hmset("goods:"+id,map);
-                }else{
+                }else
                     map = jedis.hgetAll("goods:" + id);
-                }
             }
         }
         jedis.close();
