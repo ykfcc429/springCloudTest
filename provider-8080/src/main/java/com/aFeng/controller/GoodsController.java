@@ -23,7 +23,7 @@ public class GoodsController {
      * @param goodsService  idea似乎很喜欢我用构造器注入,直接使用Autowired要黄牌警告
      */
     @Autowired
-    public void setGoodsService(GoodsService goodsService) {
+    public GoodsController(GoodsService goodsService) {
         this.goodsService = goodsService;
     }
 
@@ -40,8 +40,7 @@ public class GoodsController {
     @GetMapping("/get/{id}")
     @HystrixCommand(fallbackMethod = "getGoodsByIdHystrix")
     public Goods getGoodsById(@PathVariable("id") Long id){
-        Goods goods = goodsService.findById(id);
-        return goods;
+        return goodsService.findById(id);
     }
 
     public Goods getGoodsByIdHystrix(@PathVariable("id")Long id){

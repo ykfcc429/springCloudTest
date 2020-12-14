@@ -2,6 +2,7 @@ package com.aFeng.service.impl;
 
 import com.aFeng.pojo.Goods;
 import com.aFeng.service.GoodsService;
+import com.aFeng.util.CommonUtil;
 import com.aFeng.util.MapUtil;
 import com.aFeng.util.RedisUtil;
 import com.alibaba.fastjson.JSON;
@@ -12,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import redis.clients.jedis.Jedis;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,11 +22,11 @@ public class GoodsServiceImpl implements GoodsService {
     @Value("${provider.url}")
     private String URL;
 
-    RedisUtil redisUtil;
+    private RedisUtil redisUtil;
 
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
-    RabbitTemplate rabbitTemplate;
+    private RabbitTemplate rabbitTemplate;
 
     @Autowired
     public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
@@ -77,7 +76,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public List<Goods> list() {
-        return restTemplate.getForObject(URL + "/goods/list", List.class);
+        return CommonUtil.cast(restTemplate.getForObject(URL + "/goods/list", List.class));
     }
 
     @Override
