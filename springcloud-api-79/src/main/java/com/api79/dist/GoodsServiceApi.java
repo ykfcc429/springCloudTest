@@ -1,6 +1,7 @@
 package com.api79.dist;
 
 import com.aFeng.pojo.Goods;
+import feign.RequestLine;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,6 @@ public interface GoodsServiceApi {
     @GetMapping("/goods/get/{id}")
     Goods getGoodsById(@PathVariable("id") Long id);
 
-    @GetMapping("/goods/list")
+    @RequestLine("GET /goods/list")
     List<Goods> list();
 }

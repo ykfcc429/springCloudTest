@@ -65,6 +65,18 @@
                 <artifactId>jedis</artifactId>
                 <version>3.2.0</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/com.netflix.feign/feign-gson -->
+            <dependency>
+                <groupId>com.netflix.feign</groupId>
+                <artifactId>feign-gson</artifactId>
+                <version>8.18.0</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.75</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-eureka-server -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>

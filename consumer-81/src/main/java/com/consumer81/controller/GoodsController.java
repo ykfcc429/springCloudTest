@@ -12,9 +12,9 @@ import java.util.List;
 @SuppressWarnings("all")
 public class GoodsController {
 
-    com.consumer81.service.GoodsService goodsService;
+    private com.consumer81.service.GoodsService goodsService;
 
-    RabbitTemplate rabbitTemplate;
+    private RabbitTemplate rabbitTemplate;
 
     @Autowired
     public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
