@@ -1,24 +1,19 @@
 package com.consumer81.service.impl;
 
-import com.api79.dist.GoodsServiceApi;
 import com.aFeng.pojo.Goods;
+import com.alibaba.fastjson.JSON;
+import com.api79.dist.GoodsServiceApi;
+import com.consumer81.service.GoodsService;
 import com.consumer81.util.MapUtil;
 import com.consumer81.util.RedisUtil;
-import com.alibaba.fastjson.JSON;
-import com.consumer81.service.GoodsService;
 import com.rabbitmq.client.Channel;
 import feign.Feign;
-import feign.FeignException;
-import feign.Response;
-import feign.codec.DecodeException;
-import feign.codec.Decoder;
-import feign.gson.GsonDecoder;
 import org.springframework.amqp.core.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
+
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -83,7 +78,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public List<Goods> list() {
-        GoodsServiceApi goodsServiceApi = Feign.builder().decoder(new GsonDecoder()).target(GoodsServiceApi.class,"192.168.0.1:8848");
+        GoodsServiceApi goodsServiceApi = Feign.builder().target(GoodsServiceApi.class,"http://127.0.0.1:79");
         return goodsServiceApi.list();
     }
 

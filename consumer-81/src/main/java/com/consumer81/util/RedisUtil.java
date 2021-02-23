@@ -1,5 +1,6 @@
 package com.consumer81.util;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -13,11 +14,9 @@ public class RedisUtil {
 
     private JedisPool jedisPool;
 
-    public RedisUtil(){
-        JedisPoolConfig config = new JedisPoolConfig();
-        config.setMaxTotal(100);
-        config.setMaxIdle(20);
-        this.jedisPool = new JedisPool(config);
+    @Autowired
+    public void setJedisPool(JedisPool jedisPool) {
+        this.jedisPool = jedisPool;
     }
 
     public Jedis getInstance(){
