@@ -16,12 +16,9 @@
         <module>provider-8079</module>
         <module>provider-8080</module>
         <module>consumer-81</module>
-        <module>springcloud-api-79</module>
     </modules>
 
     <packaging>pom</packaging>
-
-
 
     <properties>
     </properties>

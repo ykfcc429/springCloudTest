@@ -2,14 +2,14 @@ package com.consumer81.service.impl;
 
 import com.aFeng.pojo.Goods;
 import com.alibaba.fastjson.JSON;
-import com.api79.dist.GoodsServiceApi;
+import com.consumer81.dist.GoodsServiceApi;
 import com.consumer81.service.GoodsService;
 import com.consumer81.util.MapUtil;
 import com.consumer81.util.RedisUtil;
 import com.rabbitmq.client.Channel;
 import feign.Feign;
+import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.Message;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
@@ -18,17 +18,12 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class GoodsServiceImpl implements GoodsService {
 
-    private RedisUtil redisUtil;
+    private final RedisUtil redisUtil;
 
-    @Autowired
-    GoodsServiceApi goodsServiceApi;
-
-    @Autowired
-    public void setRedisUtil(RedisUtil redisUtil) {
-        this.redisUtil = redisUtil;
-    }
+    private final GoodsServiceApi goodsServiceApi;
 
     private volatile boolean flag = false;
 
@@ -53,13 +48,18 @@ public class GoodsServiceImpl implements GoodsService {
     public Goods findById(Long id) throws InterruptedException {
         Jedis jedis = redisUtil.getInstance();
         Map<String,String> map = jedis.hgetAll("goods:" + id);
-        String s;
+        String s = "";
         flag = map.isEmpty();
         if(flag){
             synchronized (this){
                 if(flag){
-                    Goods goods = goodsServiceApi.getGoodsById(id);
-                    s = JSON.toJSONString(goods);
+                    try {
+                        Goods goods = goodsServiceApi.getGoodsById(id);
+                        s = JSON.toJSONString(goods);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        return new Goods();
+                    }
                     // redis hash本身只支持String类型的值
                     //这里value虽然强转成String了,但还是属于原来的类,BigDecimal等无法转为String的类会在hSet的时候报错
                     map = (Map<String, String>) JSON.parse(s);
