@@ -78,7 +78,6 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public List<Goods> list() {
-        GoodsServiceApi goodsServiceApi = Feign.builder().target(GoodsServiceApi.class,"http://127.0.0.1:79");
         return goodsServiceApi.list();
     }
 

@@ -1,6 +1,8 @@
 package com.consumer81.bean;
 
 import feign.Contract;
+import feign.Feign;
+import feign.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
  * @author ykf
  * @version 2021/2/5
  */
-@Configuration
 public class FeignClientConfig {
 
     @Bean
@@ -16,4 +17,8 @@ public class FeignClientConfig {
         return new Contract.Default();
     }
 
+    @Bean
+    public Logger.Level getLevel(){
+        return Logger.Level.NONE;
+    }
 }

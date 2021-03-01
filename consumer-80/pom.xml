@@ -28,7 +28,7 @@
 
         <dependency>
             <groupId>com.aFeng</groupId>
-            <artifactId>provider-8079</artifactId>
+            <artifactId>provider-8078</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-ribbon -->
