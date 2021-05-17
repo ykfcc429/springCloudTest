@@ -20,8 +20,6 @@
 
     <packaging>pom</packaging>
 
-    <properties>
-    </properties>
     <dependencyManagement>
         <dependencies>
             <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
@@ -80,7 +78,6 @@
                 <artifactId>spring-cloud-starter-eureka-server</artifactId>
                 <version>1.4.7.RELEASE</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client -->
             <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-amqp -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>

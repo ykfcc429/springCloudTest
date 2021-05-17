@@ -2,6 +2,7 @@ package com.aFeng.controller;
 
 import com.aFeng.pojo.Goods;
 import com.aFeng.service.GoodsService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,19 +13,12 @@ import java.util.List;
  * author:aFeng
  * date:2020/7/19
  */
+@AllArgsConstructor
 @RestController
 @RequestMapping("/goods")
 public class GoodsController {
 
-    private GoodsService goodsService;
-
-    /**
-     * @param goodsService  idea似乎很喜欢我用构造器注入,直接使用Autowired要黄牌警告
-     */
-    @Autowired
-    public void setGoodsService(GoodsService goodsService) {
-        this.goodsService = goodsService;
-    }
+    private final GoodsService goodsService;
 
     @PostMapping("/add")
     public boolean add(Goods goods){
@@ -32,7 +26,6 @@ public class GoodsController {
     }
 
     /**
-     * RestFul
      * @param id 商品ID
      * @return 商品全部信息
      */

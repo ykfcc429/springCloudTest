@@ -2,6 +2,7 @@ package com.aFeng.controller;
 
 import com.aFeng.pojo.Goods;
 import com.aFeng.service.GoodsService;
+import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,31 +14,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/goods")
 @SuppressWarnings("all")
+@AllArgsConstructor
 public class GoodsController {
 
-    RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
-    GoodsService goodsService;
+    private final GoodsService goodsService;
 
-    RabbitTemplate rabbitTemplate;
-
-    @Autowired
-    public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
-    }
+    private final RabbitTemplate rabbitTemplate;
 
     @Value("${provider.url}")
     private String URL ;
-
-    @Autowired
-    public void setGoodsService(GoodsService goodsService) {
-        this.goodsService = goodsService;
-    }
-
-    @Autowired
-    public void setRestTemplate(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     @RequestMapping("/add")
     public boolean add(Goods goods){
