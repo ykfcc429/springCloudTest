@@ -4,7 +4,6 @@ import com.aFeng.pojo.Goods;
 import com.aFeng.service.GoodsService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

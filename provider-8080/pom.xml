@@ -37,9 +37,11 @@
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.jmeter/ApacheJMeter_core -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.21</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -49,7 +51,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-hystrix</artifactId>
-            <version>1.4.6.RELEASE</version>
+        </dependency>
+        <!--Swagger-UI-->
+        <!--访问路径：http://localhost:8080/swagger-ui.html-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
         </dependency>
     </dependencies>
 
