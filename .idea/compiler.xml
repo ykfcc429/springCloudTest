@@ -7,16 +7,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="provider-8079" />
-        <module name="provider-8078" />
-        <module name="consumer-80" />
-        <module name="eureka-8083" />
-        <module name="eureka-8082" />
-        <module name="eureka-8081" />
-        <module name="springcloud-api-79" />
         <module name="consumer-81" />
+        <module name="eureka-8081" />
+        <module name="eureka-8082" />
+        <module name="eureka-8083" />
         <module name="provider-8080" />
+        <module name="consumer-80" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="provider-8078" target="1.8" />
+      <module name="provider-8079" target="1.8" />
+      <module name="springcloud-api-79" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
