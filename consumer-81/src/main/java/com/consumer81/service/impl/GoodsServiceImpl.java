@@ -1,13 +1,12 @@
 package com.consumer81.service.impl;
 
+import com.aFeng.dist.GoodsServiceApi;
 import com.aFeng.pojo.Goods;
 import com.alibaba.fastjson.JSON;
-import com.consumer81.dist.GoodsServiceApi;
 import com.consumer81.service.GoodsService;
 import com.consumer81.util.MapUtil;
 import com.consumer81.util.RedisUtil;
 import com.rabbitmq.client.Channel;
-import feign.Feign;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.Message;
 import org.springframework.stereotype.Service;

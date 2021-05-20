@@ -1,7 +1,7 @@
-package com.consumer81.dist;
+package com.aFeng.dist;
 
+import com.aFeng.bean.FeignClientConfig;
 import com.aFeng.pojo.Goods;
-import com.consumer81.bean.FeignClientConfig;
 import feign.Param;
 import feign.RequestLine;
 import org.springframework.cloud.openfeign.FeignClient;

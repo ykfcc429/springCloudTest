@@ -12,8 +12,6 @@
         <module>eureka-8081</module>
         <module>eureka-8082</module>
         <module>eureka-8083</module>
-        <module>provider-8078</module>
-        <module>provider-8079</module>
         <module>provider-8080</module>
         <module>consumer-81</module>
     </modules>

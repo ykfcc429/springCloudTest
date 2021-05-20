@@ -1,10 +1,8 @@
-package com.consumer81.bean;
+package com.aFeng.bean;
 
 import feign.Contract;
-import feign.Feign;
 import feign.Logger;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author ykf
@@ -19,6 +17,6 @@ public class FeignClientConfig {
 
     @Bean
     public Logger.Level getLevel(){
-        return Logger.Level.NONE;
+        return Logger.Level.BASIC;
     }
 }

@@ -6,6 +6,7 @@ import com.aFeng.util.CommonUtil;
 import com.aFeng.util.MapUtil;
 import com.aFeng.util.RedisUtil;
 import com.alibaba.fastjson.JSON;
+import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,31 +18,18 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@AllArgsConstructor
 public class GoodsServiceImpl implements GoodsService {
 
     @Value("${provider.url}")
     private String URL;
 
-    private RedisUtil redisUtil;
+    private final RedisUtil redisUtil;
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
-    private RabbitTemplate rabbitTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
-    @Autowired
-    public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
-    }
-
-    @Autowired
-    public void setRedisUtil(RedisUtil redisUtil) {
-        this.redisUtil = redisUtil;
-    }
-
-    @Autowired
-    public void setRestTemplate(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     /**
      * 双检锁,仅适用于单应用的前提下,如果redis中没有缓存数据,仅允许单个线程去访问生产者(数据库)
