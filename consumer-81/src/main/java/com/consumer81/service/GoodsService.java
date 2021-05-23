@@ -1,6 +1,7 @@
 package com.consumer81.service;
 
 import com.aFeng.pojo.Goods;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public interface GoodsService {
 
-    Goods findById(Long id) throws InterruptedException;
+    Goods findById(Long id) throws JsonProcessingException;
 
     List<Goods> list();
 

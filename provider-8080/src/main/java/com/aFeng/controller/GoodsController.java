@@ -13,7 +13,7 @@ import java.util.List;
  * author:aFeng
  * date:2020/7/19
  */
-@RestController
+@RestController("goodsController1")
 @RequestMapping("/goods")
 @AllArgsConstructor
 public class GoodsController {

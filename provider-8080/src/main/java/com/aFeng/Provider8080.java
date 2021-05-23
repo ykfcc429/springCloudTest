@@ -8,7 +8,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableEurekaClient
-@EnableCircuitBreaker
 @EnableFeignClients(basePackages = {"com.aFeng.dist"})
 public class Provider8080 {
 

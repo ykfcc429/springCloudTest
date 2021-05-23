@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
+@Service("GoodsServiceImpl1")
 @Transactional
 public class GoodsServiceImpl implements GoodsService {
 
@@ -25,7 +25,7 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     public Goods findById(Long id) {
-        return goodsMapper.findById(id);
+        return goodsMapper.findById(id)==null?new Goods():goodsMapper.findById(id);
     }
 
     public List<Goods> list() {

@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * 消费者启动类
  */
 @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class},
-        scanBasePackages = {"com.consumer81.*"})
+        scanBasePackages = {"com.commonTools","com.consumer81.*"})
 @EnableEurekaClient
 @EnableFeignClients(basePackages = {"com.aFeng.dist"})
 public class ConsumerApplication {

@@ -1,30 +1,24 @@
 package com.consumer81.controller;
 
+import com.commonTools.RedisTool;
 import com.aFeng.pojo.Goods;
 import com.consumer81.service.GoodsService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/goods")
-@SuppressWarnings("all")
+@AllArgsConstructor
 public class GoodsController {
 
-    private com.consumer81.service.GoodsService goodsService;
+    private final GoodsService goodsService;
 
-    private RabbitTemplate rabbitTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
-    @Autowired
-    public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
-    }
-
-    @Autowired
-    public void setGoodsService(GoodsService goodsService) {
-        this.goodsService = goodsService;
-    }
+    private final RedisTool redisTool;
 
 //    @RequestMapping("/add")
 //    public boolean add(Goods goods){
@@ -32,7 +26,7 @@ public class GoodsController {
 //    }
 
     @RequestMapping("/get/{id}")
-    public Goods findById(@PathVariable("id")Long id) throws InterruptedException {
+    public Goods findById(@PathVariable("id")Long id) throws JsonProcessingException {
         return goodsService.findById(id);
     }
 
@@ -45,5 +39,13 @@ public class GoodsController {
     @ResponseBody
     public String buy(@PathVariable("id")Long id){
         return "";
+    }
+
+    @RequestMapping("/test")
+    void test(){
+        for (int i = 0; i < 10; i++) {
+            boolean add = redisTool.lock("add");
+            System.out.println(add);
+        }
     }
 }
