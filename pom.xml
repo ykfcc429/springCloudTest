@@ -12,6 +12,7 @@
         <module>provider-8080</module>
         <module>consumer-81</module>
         <module>commonTools</module>
+        <module>gateway-80</module>
     </modules>
 
     <packaging>pom</packaging>
