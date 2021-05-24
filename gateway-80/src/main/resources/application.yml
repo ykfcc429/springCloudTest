@@ -11,7 +11,7 @@ spring:
           lower-case-service-id: true
       routes:
         - id: consumer-route
-          uri: http://localhost:81
+          uri: lb://consumer
           predicates: Path= /consumer/**
           filters: StripPrefix= 1
         - id: provider-route
