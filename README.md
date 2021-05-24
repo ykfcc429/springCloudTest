@@ -1,13 +1,26 @@
 # SpringCloudTest
-初探微服务,一个SpringCloud项目
+初探微服务,一个SpringCloud项目  
+## 版本信息
+```xml
+        <java.version>11</java.version>
+        <spring-boot.version>2.4.3</spring-boot.version>
+        <spring-cloud.version>2020.0.2</spring-cloud.version>
+```
 
 ## 技术栈
+* springCloud 这有写上来的必要吗
+* springBoot ?
 * mysql 关系型数据库
 * redis 非关系型数据库,消费者端用来缓存数据
 * mybatis 数据持久化框架
-* Eureka 服务注册与发现,做了集群
-* Ribbon 后台的负债均衡
-* RestTemplate 说是比较优雅的方式发送HTTP请求
+* Eureka 服务注册与发现
+* feign rpc调用
+* gateway 网关
+
+还加了一些小玩意,redis分布式锁以及布隆过滤器  
+
+## 我实在是太懒了,这个文档从这里往下就从未更新过,而代码已经面目全非,有空再改
+另一句话 没有懒的人,只有不想做的事
 
 ## 模块介绍
 ### provider-8079
