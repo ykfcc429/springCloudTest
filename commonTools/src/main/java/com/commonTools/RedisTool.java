@@ -10,8 +10,6 @@ import redis.clients.jedis.params.SetParams;
 @AllArgsConstructor
 public class RedisTool {
 
-    private static final String LOCK_KEY = "redis_lock"; //锁键
-
     private static final long INTERNALLOCKLEASETIME = 10000;//锁过期时间
 
     private static final SetParams params = SetParams.setParams().nx().px(INTERNALLOCKLEASETIME);
@@ -28,7 +26,7 @@ public class RedisTool {
     public boolean lock(String id){
         try (Jedis jedis = getInstance()) {
             //SET命令返回OK ，则证明获取锁成功
-            String lock = jedis.set(LOCK_KEY, id, params);
+            String lock = jedis.set(id, "1", params);
             return lock != null;
         }
     }

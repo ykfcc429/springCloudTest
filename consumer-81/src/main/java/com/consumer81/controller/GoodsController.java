@@ -1,7 +1,7 @@
 package com.consumer81.controller;
 
 import com.commonTools.RedisTool;
-import com.aFeng.pojo.Goods;
+import com.commonTools.entity.Goods;
 import com.consumer81.service.GoodsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package com.aFeng.mapper;
 
-import com.aFeng.pojo.Goods;
+import com.commonTools.entity.Goods;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

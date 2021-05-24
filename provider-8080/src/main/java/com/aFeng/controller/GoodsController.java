@@ -1,7 +1,7 @@
 package com.aFeng.controller;
 
-import com.aFeng.pojo.Goods;
 import com.aFeng.service.GoodsService;
+import com.commonTools.entity.Goods;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

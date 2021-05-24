@@ -2,7 +2,7 @@ package com.consumer81.service.impl;
 
 import com.commonTools.RedisTool;
 import com.aFeng.dist.GoodsServiceApi;
-import com.aFeng.pojo.Goods;
+import com.commonTools.entity.Goods;
 import com.consumer81.service.GoodsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,7 +44,7 @@ public class GoodsServiceImpl implements GoodsService {
         String s = jedis.get("goods:" + id);
         ObjectMapper objectMapper = new ObjectMapper();
         if (StringUtils.isEmpty(s)) {
-            if (redisTool.lock("findGoodById")) {
+            if (redisTool.lock("findGoodById"+id)) {
                 Goods goods = new Goods();
                 try {
                     goods = goodsServiceApi.getGoodsById(id);

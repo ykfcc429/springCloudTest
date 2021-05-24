@@ -1,8 +1,8 @@
 package com.aFeng.service.impl;
 
 import com.aFeng.mapper.GoodsMapper;
-import com.aFeng.pojo.Goods;
 import com.aFeng.service.GoodsService;
+import com.commonTools.entity.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

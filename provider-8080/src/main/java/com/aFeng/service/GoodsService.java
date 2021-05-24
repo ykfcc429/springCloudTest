@@ -1,6 +1,6 @@
 package com.aFeng.service;
 
-import com.aFeng.pojo.Goods;
+import com.commonTools.entity.Goods;
 
 import java.util.List;
 

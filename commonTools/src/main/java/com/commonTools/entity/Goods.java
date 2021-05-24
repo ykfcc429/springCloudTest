@@ -1,4 +1,4 @@
-package com.aFeng.pojo;
+package com.commonTools.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
