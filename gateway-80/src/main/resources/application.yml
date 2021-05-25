@@ -24,4 +24,4 @@ eureka:
     instance-id: gateway-80
   client:
     service-url:
-      defaultZone: http://localhost:8081/eureka/
+      defaultZone: http://eureka8081.com:8081/eureka,http://eureka8082.com:8082/eureka,http://eureka8083.com:8083/eureka

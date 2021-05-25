@@ -40,12 +40,4 @@ public class GoodsController {
     public String buy(@PathVariable("id")Long id){
         return "";
     }
-
-    @RequestMapping("/test")
-    void test(){
-        for (int i = 0; i < 10; i++) {
-            boolean add = redisTool.lock("add");
-            System.out.println(add);
-        }
-    }
 }
