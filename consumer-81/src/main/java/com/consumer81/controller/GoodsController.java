@@ -1,12 +1,14 @@
 package com.consumer81.controller;
 
-import com.commonTools.RedisTool;
 import com.commonTools.entity.Goods;
 import com.consumer81.service.GoodsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 @RestController
@@ -15,15 +17,6 @@ import java.util.List;
 public class GoodsController {
 
     private final GoodsService goodsService;
-
-    private final RabbitTemplate rabbitTemplate;
-
-    private final RedisTool redisTool;
-
-//    @RequestMapping("/add")
-//    public boolean add(Goods goods){
-//        return goodsService
-//    }
 
     @RequestMapping("/get/{id}")
     public Goods findById(@PathVariable("id")Long id) throws JsonProcessingException {
