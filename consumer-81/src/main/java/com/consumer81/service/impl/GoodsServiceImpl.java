@@ -44,7 +44,8 @@ public class GoodsServiceImpl implements GoodsService {
         ObjectMapper objectMapper = new ObjectMapper();
         if (StringUtils.isEmpty(s)) {
             Boolean flag;
-            if ((flag = redisTool.opsForValue().setIfAbsent("findGoodById" + id, "1")) != null && flag) {
+            if ((flag = redisTool.opsForValue().setIfAbsent("findGoodById" + id, "1",Duration.ofSeconds(10)))
+                    != null && flag) {
                 Goods goods = new Goods();
                 try {
                     goods = goodsServiceApi.getGoodsById(id);
