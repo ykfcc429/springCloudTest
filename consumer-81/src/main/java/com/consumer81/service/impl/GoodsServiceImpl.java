@@ -61,7 +61,7 @@ public class GoodsServiceImpl implements GoodsService {
             }else {
                 try {
                     Thread.sleep(1000);
-                    findById(id);
+                    return findById(id);
                 }catch (InterruptedException i){
                     log.error("Thread.sleep error",i);
                 }
