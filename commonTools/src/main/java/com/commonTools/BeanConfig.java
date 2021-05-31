@@ -1,25 +1,26 @@
 package com.commonTools;
 
-import org.springframework.beans.factory.annotation.Value;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 @Configuration("beanConfig1")
+@ConfigurationProperties("spring.redis")
+@Data
 public class BeanConfig {
 
-    @Value("${spring.redis.host}")
-    private String redisHost;
+    private String host;
 
-    @Value("${spring.redis.port}")
-    private int redisPort;
+    private int port;
 
     @Bean
     public JedisPool getJedisPool(){
         JedisPoolConfig config = new JedisPoolConfig();
         config.setMaxTotal(100);
         config.setMaxIdle(20);
-        return new JedisPool(config,redisHost,redisPort);
+        return new JedisPool(config,host,port);
     }
 }
