@@ -29,7 +29,6 @@ public class GoodsController {
     }
 
     @RequestMapping("buy/{id}")
-    @ResponseBody
     public String buy(@PathVariable("id")Long id){
         return "";
     }

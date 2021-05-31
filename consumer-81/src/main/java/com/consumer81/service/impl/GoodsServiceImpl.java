@@ -1,6 +1,5 @@
 package com.consumer81.service.impl;
 
-import com.commonTools.RedisTool;
 import com.aFeng.dist.GoodsServiceApi;
 import com.commonTools.entity.Goods;
 import com.consumer81.service.GoodsService;
@@ -11,10 +10,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.amqp.core.Message;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.List;
 
 @Service
@@ -25,7 +25,7 @@ public class GoodsServiceImpl implements GoodsService {
     /**
      * redis 工具类
      */
-    private final RedisTool redisTool;
+    private final RedisTemplate<String, String> redisTool;
 
     /**
      * rpc 商品服务
@@ -40,11 +40,11 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public Goods findById(Long id) throws JsonProcessingException {
         log.debug("enter findById , id is {}", id);
-        Jedis jedis = redisTool.getInstance();
-        String s = jedis.get("goods:" + id);
+        String s = redisTool.opsForValue().get("goods:" + id);
         ObjectMapper objectMapper = new ObjectMapper();
         if (StringUtils.isEmpty(s)) {
-            if (redisTool.lock("findGoodById"+id)) {
+            Boolean flag;
+            if ((flag = redisTool.opsForValue().setIfAbsent("findGoodById" + id, "1")) != null && flag) {
                 Goods goods = new Goods();
                 try {
                     goods = goodsServiceApi.getGoodsById(id);
@@ -52,11 +52,11 @@ public class GoodsServiceImpl implements GoodsService {
                     log.error("GoodsServiceImpl.findById error ,id is {}",id,e);
                 }
                 s = objectMapper.writeValueAsString(goods);
-                jedis.set("goods:" + id, s);
+                redisTool.opsForValue().set("goods:" + id, s);
                 int expire = 2*3600;
                 if(goods.getId()==null)
                     expire = 10;
-                jedis.expire("goods:"+id, expire);
+                redisTool.expire("goods:"+id, Duration.ofSeconds(expire));
             }else {
                 try {
                     Thread.sleep(1000);
@@ -66,7 +66,6 @@ public class GoodsServiceImpl implements GoodsService {
                 }
             }
         }
-        jedis.close();
         log.debug("exit findById, id is {}, goods is {}", id , s);
         return objectMapper.readValue(s,Goods.class);
     }
