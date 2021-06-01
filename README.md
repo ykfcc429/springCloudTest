@@ -16,6 +16,7 @@
 * Eureka 服务注册与发现
 * feign rpc调用
 * gateway 网关
+* swagger <http://localhost/swagger-ui/>
 
 还加了一些小玩意,redis分布式锁以及布隆过滤器(手写的,~~不是很好用~~难用,但是能用)  
 
