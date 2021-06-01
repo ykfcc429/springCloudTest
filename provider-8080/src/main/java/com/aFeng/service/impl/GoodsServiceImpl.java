@@ -4,10 +4,13 @@ import com.aFeng.mapper.GoodsMapper;
 import com.aFeng.service.GoodsService;
 import com.commonTools.entity.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 @Service("GoodsServiceImpl1")
 @Transactional
@@ -20,8 +23,10 @@ public class GoodsServiceImpl implements GoodsService {
         this.goodsMapper = goodsMapper;
     }
 
-    public boolean add(Goods goods) {
-        return goodsMapper.add(goods);
+    @Async("providerThreadPool")
+    public Future<Boolean> add(Goods goods) {
+        System.out.println(Thread.currentThread().getName());
+        return new AsyncResult<>(goodsMapper.add(goods));
     }
 
     public Goods findById(Long id) {

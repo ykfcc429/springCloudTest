@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages =  {"com.commonTools","com.aFeng.*"})
 @EnableEurekaClient
 @EnableFeignClients(basePackages = {"com.aFeng.dist"})
 public class Provider8080 {

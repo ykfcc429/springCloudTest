@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -22,16 +24,19 @@ public class Goods implements Serializable {
     /**
      * 名称
      */
+    @NotBlank
     private String name;
 
     /**
      * 库存
      */
+    @NotNull
     private Long stock;
 
     /**
      * 价格
      */
+    @NotNull
     private Double price;
 
     /**

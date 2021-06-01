@@ -3,10 +3,11 @@ package com.aFeng.service;
 import com.commonTools.entity.Goods;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 public interface GoodsService {
 
-    boolean add(Goods goods);
+    Future<Boolean> add(Goods goods);
 
     Goods findById(Long id);
 

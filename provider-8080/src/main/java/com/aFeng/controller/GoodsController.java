@@ -4,9 +4,12 @@ import com.aFeng.service.GoodsService;
 import com.commonTools.entity.Goods;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * 商品服务提供者
@@ -16,13 +19,14 @@ import java.util.List;
 @RestController("goodsController1")
 @RequestMapping("/goods")
 @AllArgsConstructor
+@Valid
 public class GoodsController {
 
     private final GoodsService goodsService;
 
     @PostMapping("/add")
-    public boolean add(Goods goods){
-        return goodsService.add(goods);
+    public boolean add(@RequestBody @Validated Goods goods) throws ExecutionException, InterruptedException {
+        return goodsService.add(goods).get();
     }
 
     /**
