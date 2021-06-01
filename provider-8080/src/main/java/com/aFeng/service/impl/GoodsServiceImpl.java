@@ -30,7 +30,8 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     public Goods findById(Long id) {
-        return goodsMapper.findById(id)==null?new Goods():goodsMapper.findById(id);
+        Goods goods;
+        return (goods = goodsMapper.findById(id))==null?new Goods():goods;
     }
 
     public List<Goods> list() {
