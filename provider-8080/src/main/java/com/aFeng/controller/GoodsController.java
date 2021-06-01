@@ -2,7 +2,6 @@ package com.aFeng.controller;
 
 import com.aFeng.service.GoodsService;
 import com.commonTools.entity.Goods;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
