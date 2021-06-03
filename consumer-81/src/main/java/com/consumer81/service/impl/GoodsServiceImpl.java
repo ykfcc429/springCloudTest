@@ -1,6 +1,6 @@
 package com.consumer81.service.impl;
 
-import com.aFeng.dist.GoodsServiceApi;
+import com.commonTools.dist.GoodsServiceApi;
 import com.commonTools.entity.Goods;
 import com.consumer81.service.GoodsService;
 import com.fasterxml.jackson.core.JsonProcessingException;

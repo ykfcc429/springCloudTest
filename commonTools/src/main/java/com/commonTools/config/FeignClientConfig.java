@@ -1,13 +1,15 @@
-package com.aFeng.bean;
+package com.commonTools.config;
 
 import feign.Contract;
 import feign.Logger;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author ykf
  * @version 2021/2/5
  */
+@Configuration
 public class FeignClientConfig {
 
     @Bean

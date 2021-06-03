@@ -12,7 +12,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class},
         scanBasePackages = {"com.commonTools","com.consumer81.*"})
 @EnableEurekaClient
-@EnableFeignClients(basePackages = {"com.aFeng.dist"})
+@EnableFeignClients(basePackages = {"com.commonTools.dist"})
 public class ConsumerApplication {
     public static void main(String[] args) {
         SpringApplication.run(ConsumerApplication.class,args);

@@ -1,6 +1,6 @@
-package com.aFeng.dist;
+package com.commonTools.dist;
 
-import com.aFeng.bean.FeignClientConfig;
+import com.commonTools.config.FeignClientConfig;
 import com.commonTools.entity.Goods;
 import feign.Param;
 import feign.RequestLine;
