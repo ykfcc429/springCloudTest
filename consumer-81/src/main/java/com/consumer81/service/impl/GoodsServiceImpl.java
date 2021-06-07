@@ -40,35 +40,35 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public Goods findById(Long id) throws JsonProcessingException {
         log.debug("enter findById , id is {}", id);
-        String s = redisTool.opsForValue().get("goods:" + id);
-        ObjectMapper objectMapper = new ObjectMapper();
-        if (StringUtils.isEmpty(s)) {
-            Boolean flag;
-            if ((flag = redisTool.opsForValue().setIfAbsent("findGoodById" + id, "1",Duration.ofSeconds(10)))
+        String s = redisTool.opsForValue().get("goods:" + id);//直接在redis取数据
+        ObjectMapper objectMapper = new ObjectMapper();//新建json序列化工具
+        if (StringUtils.isEmpty(s)) {                   //判断redis里取出来的数据是否为空
+            Boolean flag;                               //
+            if ((flag = redisTool.opsForValue().setIfAbsent("findGoodById" + id, "1",Duration.ofSeconds(10)))  //利用redis 的 setNx命令添加分布式锁
                     != null && flag) {
                 Goods goods = new Goods();
                 try {
-                    goods = goodsServiceApi.getGoodsById(id);
+                    goods = goodsServiceApi.getGoodsById(id);  //使用feign rpc调用生产者服务的接口
                 } catch (Exception e) {
                     log.error("GoodsServiceImpl.findById error ,id is {}",id,e);
                 }
-                s = objectMapper.writeValueAsString(goods);
-                redisTool.opsForValue().set("goods:" + id, s);
-                int expire = 2*3600;
-                if(goods.getId()==null)
-                    expire = 10;
-                redisTool.expire("goods:"+id, Duration.ofSeconds(expire));
+                s = objectMapper.writeValueAsString(goods);   // 查到的实体转成json字符串,就算rpc调用异常也能保证一个默认对象会被序列化
+                redisTool.opsForValue().set("goods:" + id, s);  //存进redis
+                int expire = 2*3600;                            //定义缓存过期时间
+                if(goods.getId()==null)                         //如果没查到数据,过期时间设置成10秒 这一步是关键,缓存的目的就是为了让数据库的访问量减少,如果没查到数据,那立马
+                    expire = 10;                                //去查也未必能查到,等于无故增加了数据库压力
+                redisTool.expire("goods:"+id, Duration.ofSeconds(expire));  //设置过期时间
             }else {
                 try {
-                    Thread.sleep(1000);
-                    return findById(id);
+                    Thread.sleep(1000);               //这里是获取分布式锁失败的时候会走的分支,不管有多少个线程同时抵达,只会有一个线程会进入数据库查询,其他的线程都会被分到这里
+                    return findById(id);                    //然后休息一会,等待数据加载到redis,再自己调用自己
                 }catch (InterruptedException i){
                     log.error("Thread.sleep error",i);
                 }
             }
         }
         log.debug("exit findById, id is {}, goods is {}", id , s);
-        return objectMapper.readValue(s,Goods.class);
+        return objectMapper.readValue(s,Goods.class);      //最后把redis里取到的字符串序列化成对象返回
     }
 
     @Override
