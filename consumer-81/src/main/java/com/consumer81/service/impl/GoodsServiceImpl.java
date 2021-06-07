@@ -6,27 +6,31 @@ import com.consumer81.service.GoodsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.amqp.core.Message;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class GoodsServiceImpl implements GoodsService {
 
     /**
-     * redis 工具类
+     * redisTemplate 工具类
      */
     private final RedisTemplate<String, String> redisTool;
 
+    @Resource(name = "redisTemplate")
+    private ValueOperations<String, String> redisTemplate;
     /**
      * rpc 商品服务
      */
@@ -40,11 +44,11 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public Goods findById(Long id) throws JsonProcessingException {
         log.debug("enter findById , id is {}", id);
-        String s = redisTool.opsForValue().get("goods:" + id);//直接在redis取数据
+        String s = redisTemplate.get("goods:" + id);//直接在redis取数据
         ObjectMapper objectMapper = new ObjectMapper();//新建json序列化工具
         if (StringUtils.isEmpty(s)) {                   //判断redis里取出来的数据是否为空
             Boolean flag;                               //
-            if ((flag = redisTool.opsForValue().setIfAbsent("findGoodById" + id, "1",Duration.ofSeconds(10)))  //利用redis 的 setNx命令添加分布式锁
+            if ((flag = redisTemplate.setIfAbsent("findGoodById" + id, "1",Duration.ofSeconds(10)))  //利用redis 的 setNx命令添加分布式锁
                     != null && flag) {
                 Goods goods = new Goods();
                 try {
@@ -53,7 +57,7 @@ public class GoodsServiceImpl implements GoodsService {
                     log.error("GoodsServiceImpl.findById error ,id is {}",id,e);
                 }
                 s = objectMapper.writeValueAsString(goods);   // 查到的实体转成json字符串,就算rpc调用异常也能保证一个默认对象会被序列化
-                redisTool.opsForValue().set("goods:" + id, s);  //存进redis
+                redisTemplate.set("goods:" + id, s);  //存进redis
                 int expire = 2*3600;                            //定义缓存过期时间
                 if(goods.getId()==null)                         //如果没查到数据,过期时间设置成10秒 这一步是关键,缓存的目的就是为了让数据库的访问量减少,如果没查到数据,那立马
                     expire = 10;                                //去查也未必能查到,等于无故增加了数据库压力
