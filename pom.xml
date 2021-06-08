@@ -20,6 +20,7 @@
         <module>consumer-81</module>
         <module>commonTools</module>
         <module>gateway-80</module>
+        <module>member</module>
     </modules>
 
     <packaging>pom</packaging>

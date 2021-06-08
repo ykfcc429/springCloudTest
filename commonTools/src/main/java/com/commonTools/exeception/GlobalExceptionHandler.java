@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
     public Result<String> exceptionHandler(HttpServletRequest request, Exception e){
 
           // 其余异常简单返回为服务器异常
-        log.error("Uncapped exception:",e);
+        log.error("request :{} , Uncapped exception:", request, e);
         return Result.error(50001,"未知异常");
 
     }

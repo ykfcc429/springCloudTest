@@ -34,6 +34,10 @@ public class Result<F> {
         return new Result<>(200,message,f);
     }
 
+    public static <F> Result<F> success(String message){
+        return success(message,null);
+    }
+
     public static <F> Result<F> success(F f){
         return success("success",f);
     }
