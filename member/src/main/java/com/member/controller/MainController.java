@@ -47,7 +47,7 @@ public class MainController {
             return Result.error(5001,"账户或密码错误!");
         String token = mainService.getToken(request.getAccount(), request.getPassword(),
                 servletUtil.getRemoteAddress(servletRequest));
-        valueOperations.set("token:"+request.getAccount(), token, 30, TimeUnit.DAYS);
+        valueOperations.set("token:"+request.getAccount(), token, 30, TimeUnit.MINUTES);
         return Result.success(token);
     }
 
