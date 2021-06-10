@@ -11,6 +11,6 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface MainMapper {
 
-    @Select("SELECT count(1) FROM user WHERE account = #{account} AND PASSWORD = #{password}")
+    @Select("SELECT COUNT(1) FROM user WHERE ACCOUNT = #{account} AND PASSWORD = #{password}")
     Integer checkLoginAccount(@Param("account") String account,@Param("password") String password);
 }

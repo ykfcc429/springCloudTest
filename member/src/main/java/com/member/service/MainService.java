@@ -1,5 +1,7 @@
 package com.member.service;
 
+import javax.mail.MessagingException;
+
 /**
  * @author yankaifeng
  * 创建日期 2021/6/8
@@ -17,4 +19,6 @@ public interface MainService {
     boolean checkLoginAccount(String account, String password);
 
     String getToken(String account, String password, String ip);
+
+    void sendVerificationCode(String receiver)throws MessagingException;
 }
