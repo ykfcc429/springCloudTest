@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.amqp.core.Message;
@@ -42,7 +43,8 @@ public class GoodsServiceImpl implements GoodsService {
      * @return 商品信息
      */
     @Override
-    public Goods findById(Long id) throws JsonProcessingException {
+    @SneakyThrows
+    public Goods findById(Long id) {
         log.debug("enter findById , id is {}", id);
         String s = redisTemplate.get("goods:" + id);//直接在redis取数据
         ObjectMapper objectMapper = new ObjectMapper();//新建json序列化工具

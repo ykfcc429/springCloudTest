@@ -1,6 +1,7 @@
 package com.consumer81.controller;
 
 import com.commonTools.entity.Goods;
+import com.commonTools.entity.Result;
 import com.consumer81.service.GoodsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.Api;
@@ -27,14 +28,14 @@ public class GoodsController {
     @ApiOperation(value = "查询单个实体", httpMethod = "GET")
     @GetMapping("/get/{id}")
     @ApiResponse(code = 40001, message = "参数错误")
-    public Goods findById(@PathVariable("id")Long id) throws JsonProcessingException {
-        return goodsService.findById(id);
+    public Result<Goods> findById(@PathVariable("id")Long id) throws JsonProcessingException {
+        return Result.success(goodsService.findById(id));
     }
 
     @ApiOperation("查询所有实体")
     @GetMapping("/list")
-    public List<Goods> list(){
-        return goodsService.list();
+    public Result<List<Goods>> list(){
+        return Result.success(goodsService.list());
     }
 
     @ApiOperation("已废弃")

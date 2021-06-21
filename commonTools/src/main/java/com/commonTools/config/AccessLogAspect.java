@@ -22,7 +22,11 @@ public class AccessLogAspect {
     public void getControllerMethod() {
     }
 
-    @Around("postControllerMethod() || getControllerMethod()")
+    @Pointcut("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
+    public void requestMethod(){
+    }
+
+    @Around("postControllerMethod() || getControllerMethod() || requestMethod()")
     public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
         long startTime = System.currentTimeMillis();
         StringBuilder logMessage = new StringBuilder();
