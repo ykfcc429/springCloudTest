@@ -70,16 +70,12 @@ public class ParamExceptionControllerAdvice {
             return Result.error(40001,"参数校验异常处理");
         }
         Optional<ConstraintViolation<?>> first = constraintViolations.stream().findFirst();
-        if (first.isPresent()) {
-            ConstraintViolation<?> constraintViolation = first.get();
-            String message = constraintViolation.getMessage();
-            String path = constraintViolation.getPropertyPath().toString();
-            return Result.error(40001,
-                    path.substring(path.indexOf(".", path.indexOf(".") + 1) + 1) + " " +
-                            message);
-        } else {
-            return Result.error(40001,"参数校验异常处理");
-        }
+        ConstraintViolation<?> constraintViolation = first.get();
+        String message = constraintViolation.getMessage();
+        String path = constraintViolation.getPropertyPath().toString();
+        return Result.error(40001,
+                path.substring(path.indexOf(".", path.indexOf(".") + 1) + 1) + " " +
+                        message);
     }
 
     /**

@@ -17,7 +17,6 @@ import javax.mail.MessagingException;
 import javax.servlet.ServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
